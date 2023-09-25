@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const apiClient = axios.create({
-  baseURL: import.meta.env.BASE_URL
+  baseURL: import.meta.env.API_BASE_URL || "https://opentdb.com"
 });
