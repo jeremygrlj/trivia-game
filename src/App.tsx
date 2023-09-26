@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import appTheme from "./themes/theme";
 import TriviaCard from "./components/card/trivia-card";
+import TriviaQuestions from "./components/trivia-questions/trivia-questions";
 
 function App() {
+	const [triviaQuestions, setTriviaQuestions] = useState<[]>([]);
+
 	return (
 		<Box
 			component="main"
@@ -19,7 +23,17 @@ function App() {
 			}}
 		>
 			<Typography variant="h2">This is a trivia game</Typography>
-			<TriviaCard />
+			{triviaQuestions.length === 0 ? (
+				// Render this component when triviaQuestions is empty
+				<TriviaCard setTriviaQuestions={setTriviaQuestions} />
+			) : (
+				// Render another component or nothing when triviaQuestions is not empty
+
+				<TriviaQuestions
+					setTriviaQuestions={setTriviaQuestions}
+					questions={triviaQuestions}
+				/>
+			)}
 		</Box>
 	);
 }

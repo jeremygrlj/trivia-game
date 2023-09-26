@@ -12,9 +12,11 @@ type TriviaSelectProps = {
 	id: string;
 	label: string;
 	options: {
+		id: string;
 		name: string;
 	}[];
 	style?: SxProps;
+	onChange: (event: SelectChangeEvent) => void;
 };
 
 const TriviaSelect: React.FC<TriviaSelectProps> = ({
@@ -22,10 +24,12 @@ const TriviaSelect: React.FC<TriviaSelectProps> = ({
 	label,
 	options,
 	style,
+	onChange,
 }) => {
 	const [selectedValue, setSelectedValue] = useState<string>("");
 
 	const handleChange = (event: SelectChangeEvent) => {
+		onChange(event);
 		setSelectedValue(event.target.value);
 	};
 
@@ -41,8 +45,8 @@ const TriviaSelect: React.FC<TriviaSelectProps> = ({
 				<MenuItem disabled value="">
 					{label}
 				</MenuItem>
-				{options?.map(({ name }) => (
-					<MenuItem key={name} value={name}>
+				{options?.map(({ id, name }) => (
+					<MenuItem key={name} value={id}>
 						{name}
 					</MenuItem>
 				))}

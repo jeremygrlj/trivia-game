@@ -3,19 +3,36 @@ import {
 	Button,
 	Card,
 	CardContent,
+	SelectChangeEvent,
 	TextField,
 	Typography,
 } from "@mui/material";
 import TriviaSelect from "../common/trivia-select";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { apiClient } from "../../constants/api-client";
 import { Globals } from "../../utils/utils";
 
-const TriviaCard: React.FC = () => {
-	const [categories, setCategories] = useState<[]>([]);
+type formData = {
+	amount: number;
+	category: string;
+	difficulty: string;
+	type: string;
+};
 
-	console.log(console.log(import.meta.env.MODE));
-	console.log(console.log(import.meta.env.TEST));
+type TriviaCardProps = {
+	setTriviaQuestions: Dispatch<SetStateAction<[]>>;
+};
+
+const TriviaCard: React.FC<TriviaCardProps> = ({ setTriviaQuestions }) => {
+	const [categories, setCategories] = useState<[]>([]);
+	const [formData, setFormData] = useState<formData>({
+		amount: 10,
+		category: "",
+		difficulty: "",
+		type: "",
+	});
+
+	console.count("rendered");
 
 	useEffect(() => {
 		const getCategories = async () => {
@@ -31,6 +48,27 @@ const TriviaCard: React.FC = () => {
 		getCategories();
 	}, []);
 
+	const handleSubmit = (event: { preventDefault: () => void }) => {
+		event.preventDefault();
+		const getTriviaQuestions = async () => {
+			const amount = formData.amount;
+			const category = formData.category || "";
+			const difficulty = formData.difficulty || "";
+			const type = formData.type || "";
+			try {
+				const response = await apiClient.get(
+					`/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=${type}`
+				);
+				if (response.status === 200) {
+					setTriviaQuestions(response.data.results);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		getTriviaQuestions();
+	};
+
 	return (
 		<Card sx={{ width: "600px" }}>
 			<CardContent
@@ -42,7 +80,9 @@ const TriviaCard: React.FC = () => {
 			>
 				<Typography>Pick out a combination to generate trivia cards</Typography>
 				<Box
+					onSubmit={handleSubmit}
 					component="form"
+					noValidate
 					sx={{
 						display: "flex",
 						flexDirection: "column",
@@ -51,23 +91,49 @@ const TriviaCard: React.FC = () => {
 					}}
 				>
 					<TextField
-						id="number-of-questions"
+						id="number"
 						label="Number"
 						type="number"
 						fullWidth
+						value={formData.amount}
+						inputProps={{ inputMode: "numeric", pattern: "[1-20]" }}
+						onChange={(event) => {
+							setFormData({
+								...formData,
+								amount: Number(event.target.value) as number,
+							});
+						}}
 					/>
-					<TriviaSelect id="category" label="Category" options={categories} />
+					<TriviaSelect
+						id="category"
+						label="Category"
+						options={categories}
+						onChange={(event) => {
+							setFormData({ ...formData, category: event.target.value });
+						}}
+					/>
 					<TriviaSelect
 						id="difficulty"
 						label="Difficulty"
 						options={Globals.difficulties}
+						onChange={(event: SelectChangeEvent) => {
+							setFormData({ ...formData, difficulty: event.target.value });
+						}}
 					/>
-					<TriviaSelect id="type" label="Type" options={Globals.types} />
+					<TriviaSelect
+						id="type"
+						label="Type"
+						options={Globals.types}
+						onChange={(event: SelectChangeEvent) => {
+							setFormData({ ...formData, type: event.target.value });
+						}}
+					/>
 					<Button
 						variant="contained"
 						fullWidth
 						size="large"
 						sx={{ fontSize: "1rem" }}
+						type="submit"
 					>
 						Generate trivia cards
 					</Button>
