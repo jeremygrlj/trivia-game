@@ -1,6 +1,6 @@
 import { Card, CardActionArea, Typography } from "@mui/material";
 import { decodeHtmlEntities } from "../../utils/utils";
-import { green, grey, red } from "@mui/material/colors";
+import { green, grey } from "@mui/material/colors";
 import { Dispatch, SetStateAction } from "react";
 
 type TriviaAnswerCardProps = {
@@ -8,7 +8,6 @@ type TriviaAnswerCardProps = {
 	answered: boolean;
 	isCorrect: boolean;
 	setAnswered: Dispatch<SetStateAction<boolean>>;
-	setUserChoice: Dispatch<SetStateAction<string | null>>;
 };
 
 const TriviaAnswerCard: React.FC<TriviaAnswerCardProps> = ({
@@ -16,7 +15,6 @@ const TriviaAnswerCard: React.FC<TriviaAnswerCardProps> = ({
 	answered,
 	isCorrect,
 	setAnswered,
-	setUserChoice,
 }) => {
 	return (
 		<Card
@@ -31,7 +29,6 @@ const TriviaAnswerCard: React.FC<TriviaAnswerCardProps> = ({
 			<CardActionArea
 				onClick={() => {
 					setAnswered(true);
-					setUserChoice(answer);
 				}}
 				sx={{
 					padding: "16px",

@@ -19,7 +19,6 @@ const TriviaModal: React.FC<TriviaModalProps> = ({
 	correctAnswer,
 }) => {
 	const [answered, setAnswered] = useState(false);
-	const [userChoice, setUserChoice] = useState<string | null>(null);
 
 	return (
 		<Modal
@@ -47,7 +46,6 @@ const TriviaModal: React.FC<TriviaModalProps> = ({
 							answered={answered}
 							isCorrect={answer === correctAnswer}
 							setAnswered={setAnswered}
-							setUserChoice={setUserChoice}
 						/>
 					))}
 				</CardContent>
