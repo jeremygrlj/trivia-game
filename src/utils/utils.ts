@@ -23,3 +23,16 @@ export const randomRGBColor = (min: number = 200, max: number = 255) => {
 
   return `rgb(${red},${green},${blue})`;
 }
+
+export const shuffleArray = (array: string[]) => {
+  const shuffledArray = [...array]; // Create a copy of the original array
+
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = shuffledArray[i];
+    shuffledArray[i] = shuffledArray[j];
+    shuffledArray[j] = temp;
+  }
+
+  return shuffledArray; // Return the shuffled array
+}

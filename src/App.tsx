@@ -24,11 +24,10 @@ function App() {
 		>
 			<Typography variant="h2">This is a trivia game</Typography>
 			{triviaQuestions.length === 0 ? (
-				// Render this component when triviaQuestions is empty
+				// Render TriviaCard component when triviaQuestions is empty
 				<TriviaCard setTriviaQuestions={setTriviaQuestions} />
 			) : (
-				// Render another component or nothing when triviaQuestions is not empty
-
+				// Render TriviaQuestions component when triviaQuestions is not empty
 				<TriviaQuestions
 					setTriviaQuestions={setTriviaQuestions}
 					questions={triviaQuestions}

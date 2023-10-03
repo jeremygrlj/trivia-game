@@ -32,8 +32,6 @@ const TriviaCard: React.FC<TriviaCardProps> = ({ setTriviaQuestions }) => {
 		type: "",
 	});
 
-	console.count("rendered");
-
 	useEffect(() => {
 		const getCategories = async () => {
 			try {

@@ -28,7 +28,7 @@ const TriviaQuestions: React.FC<TriviaQuestionProps> = ({
 
 	return (
 		<>
-			<Typography variant="h6">Choose a trivia question:</Typography>
+			<Typography variant="h6">Choose a trivia question to answer:</Typography>
 			<Grid
 				container
 				direction="row"
@@ -38,11 +38,9 @@ const TriviaQuestions: React.FC<TriviaQuestionProps> = ({
 				columnSpacing={{ xs: 1, sm: 2, md: 3 }}
 				columns={{ xs: 4, sm: 8, md: 12 }}
 			>
-				{questions.map((question) => {
-					return (
-						<TriviaQuestionCard key={question.question} question={question} />
-					);
-				})}
+				{questions.map((question) => (
+					<TriviaQuestionCard key={question.question} question={question} />
+				))}
 			</Grid>
 			<Box
 				component="div"
